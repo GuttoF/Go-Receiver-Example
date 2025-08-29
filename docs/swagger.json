@@ -1,0 +1,93 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Servidor local para a API de recebimento de webhooks e sua documentação.",
+        "title": "Receptor de Webhooks API",
+        "contact": {},
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/",
+    "paths": {
+        "/": {
+            "post": {
+                "description": "API para receber eventos de webhook. Esta função é projetada para ser um gateway robusto e escalável, recebendo notificações, validando-as rapidamente e encaminhando para processamento assíncrono.\nAceita um payload JSON via HTTP POST, valida-o e retorna uma confirmação de sucesso.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Recebe um evento de webhook",
+                "parameters": [
+                    {
+                        "description": "Payload do Webhook",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/receiver.WebhookPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Resposta de sucesso",
+                        "schema": {
+                            "$ref": "#/definitions/receiver.SuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Corpo do JSON inválido",
+                        "schema": {
+                            "$ref": "#/definitions/receiver.ErrorResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Método não permitido",
+                        "schema": {
+                            "$ref": "#/definitions/receiver.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "receiver.ErrorResponse": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string",
+                    "example": "Método não permitido"
+                }
+            }
+        },
+        "receiver.SuccessResponse": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "string",
+                    "example": "sucesso"
+                }
+            }
+        },
+        "receiver.WebhookPayload": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "object",
+                    "additionalProperties": true
+                },
+                "eventType": {
+                    "type": "string",
+                    "example": "message.sent"
+                },
+                "timestamp": {
+                    "type": "string",
+                    "example": "2025-08-29T10:00:00Z"
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,64 @@
+basePath: /
+definitions:
+  receiver.ErrorResponse:
+    properties:
+      error:
+        example: Método não permitido
+        type: string
+    type: object
+  receiver.SuccessResponse:
+    properties:
+      status:
+        example: sucesso
+        type: string
+    type: object
+  receiver.WebhookPayload:
+    properties:
+      data:
+        additionalProperties: true
+        type: object
+      eventType:
+        example: message.sent
+        type: string
+      timestamp:
+        example: "2025-08-29T10:00:00Z"
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: Servidor local para a API de recebimento de webhooks e sua documentação.
+  title: Receptor de Webhooks API
+  version: "1.0"
+paths:
+  /:
+    post:
+      consumes:
+      - application/json
+      description: |-
+        API para receber eventos de webhook. Esta função é projetada para ser um gateway robusto e escalável, recebendo notificações, validando-as rapidamente e encaminhando para processamento assíncrono.
+        Aceita um payload JSON via HTTP POST, valida-o e retorna uma confirmação de sucesso.
+      parameters:
+      - description: Payload do Webhook
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/receiver.WebhookPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Resposta de sucesso
+          schema:
+            $ref: '#/definitions/receiver.SuccessResponse'
+        "400":
+          description: Corpo do JSON inválido
+          schema:
+            $ref: '#/definitions/receiver.ErrorResponse'
+        "405":
+          description: Método não permitido
+          schema:
+            $ref: '#/definitions/receiver.ErrorResponse'
+      summary: Recebe um evento de webhook
+swagger: "2.0"

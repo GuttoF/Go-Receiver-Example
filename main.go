@@ -18,8 +18,10 @@ func main() {
 	http.HandleFunc("/", receiver.ReceiverFunction)
 
 	http.HandleFunc("/swagger/", httpSwagger.WrapHandler)
+	http.HandleFunc("/docs/", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "./docs/redoc-static.html")
+	})
 	
 	log.Println("Servidor rodando em http://localhost:8080 🚀")
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
-
