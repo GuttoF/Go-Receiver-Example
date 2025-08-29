@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
-	"receiver/receiver"
+	"github.com/GuttoF/Go-Receiver-Example/receiver"
 )
 
 func main() {

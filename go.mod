@@ -1,4 +1,4 @@
-module receiver
+module github.com/GuttoF/Go-Receiver-Example
 
 go 1.24.6
 
