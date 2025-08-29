@@ -18,7 +18,6 @@ COPY --from=builder /app/server .
 RUN chmod +x server
 
 ENV PORT=8080
-ENV FUNCTION_TARGET=ReceiverFunction
 
 EXPOSE 8080
 
