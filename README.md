@@ -28,7 +28,7 @@ sequenceDiagram
 
 1. **Serviço Envia Webhook**: A plataforma dispara uma requisição HTTP POST para um endpoint público.
 
-2. **Cloud Function (HTTP Receptor)**: Uma função Go no Google Cloud Functions (acionada por HTTP) recebe o webhook. Sua única responsabilidade é validar o formato básico, logar o recebimento e, criticamente, responder rapidamente com um HTTP 200 OK para a Kinbox. Isso evita timeouts e reenvios.
+2. **Cloud Function (HTTP Receptor)**: Uma função Go no Google Cloud Functions (acionada por HTTP) recebe o webhook. Sua única responsabilidade é validar o formato básico, logar o recebimento e, criticamente, responder rapidamente com um HTTP 200 OK para o serviço. Isso evita timeouts e reenvios.
 
 3. **Publicação no Pub/Sub**: Após o recebimento, a função HTTP publica o conteúdo bruto do webhook em um tópico do Google Pub/Sub. Isso serve como uma fila de mensagens durável.
 
